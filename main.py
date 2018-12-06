@@ -18,23 +18,12 @@ class Parser:
         self.urls_lst = []
         for news in Downloader().bsObj.findAll("url"):
             self.urls_lst.append(news)
-            
+    
     def news_list(self):
-        """
-        Формирует список новостей
-        """
-        counter = 1
-        for news in range(25):
-            print(str(counter) + ' ' + self.urls_lst[news].contents[3].contents[5].next)
-            counter += 1
-
-    # Альтернатиный способ формирования списка. В таком случае сложность алгоритма
-    # порядка O(n**2)
-    #def news_list(self):
-    #    i = 1
-    #    for news in enumerate(Downloader().bsObj.find_all("title"), start=i):
-    #        i += 1
-    #        print(str(news[0]) + '. ' + news[1].next)
+        i = 1
+        for news in enumerate(Downloader().bsObj.find_all("title"), start=i):
+            i += 1
+            print(str(news[0]) + '. ' + news[1].next)
     
     def get_full_news_by_number(self, num):
         """
@@ -57,7 +46,7 @@ class Parser:
         Используйте этот метод чтобы получить список новостей по тегу
         """
         tag = tag[1:-1]
-        for i in range(25):
+        for i in range(len(self.urls_lst)):
             if tag in self.urls_lst[i].contents[3].contents[7].next:
                 news_maker = self.urls_lst[i].contents[3].contents[1].contents[1].next
                 date = self.urls_lst[i].contents[3].contents[3].contents[0]
